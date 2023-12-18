@@ -50,7 +50,7 @@ public class CarController {
             Type type = typeService.findByName(carDTO.getType());
             if (type == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            Car car = carService.save(new Car(carDTO.getBrand(), carDTO.getModel(), type));
+            Car car = carService.save(new Car(carDTO.getBrand(), carDTO.getModel(), type, carDTO.getGen()));
             return new ResponseEntity<>(carService.convertToDto(car), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -86,6 +86,7 @@ public class CarController {
             car.setBrand(carDTO.getBrand());
             car.setModel(carDTO.getModel());
             car.setType(type);
+            car.setGen(carDTO.getGen());
             carService.save(car);
             return new ResponseEntity<>(carService.convertToDto(car), HttpStatus.OK);
 
@@ -114,6 +115,8 @@ public class CarController {
                     return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
                 }
             }
+            if (carDTO.getGen() != null)
+                car.setGen(carDTO.getGen());
             carService.save(car);
             return new ResponseEntity<>(carService.convertToDto(car), HttpStatus.OK);
 
@@ -128,6 +131,36 @@ public class CarController {
             List<CarDTO> cars = carService
                     .findAll()
                     .stream().filter(c -> brand.equalsIgnoreCase(c.getBrand()))
+                    .collect(Collectors.toList());
+            if (cars.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(cars, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<CarDTO>> getCarsByType(@PathVariable String type) {
+        try {
+            List<CarDTO> cars = carService
+                    .findAll()
+                    .stream().filter(c -> type.equalsIgnoreCase(c.getType()))
+                    .collect(Collectors.toList());
+            if (cars.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(cars, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/model/{model}")
+    public ResponseEntity<List<CarDTO>> getCarsByModel(@PathVariable String model) {
+        try {
+            List<CarDTO> cars = carService
+                    .findAll()
+                    .stream().filter(c -> model.equalsIgnoreCase(c.getModel()))
                     .collect(Collectors.toList());
             if (cars.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

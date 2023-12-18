@@ -10,6 +10,7 @@ public class Car {
     private Long id;
     private String brand;
     private String model;
+    private String gen;
 
     @ManyToOne
     private Type type;
@@ -17,17 +18,11 @@ public class Car {
     public Car() {
     }
 
-    public Car(String brand, String model, Type type) {
+    public Car(String brand, String model, Type type, String gen) {
         this.brand = brand;
         this.model = model;
         this.type = type;
-    }
-
-    public Car(Long id, String brand, String model, Type type) {
-        this.id = id;
-        this.brand = brand;
-        this.model = model;
-        this.type = type;
+        this.gen = gen;
     }
 
     public Long getId() {
@@ -62,4 +57,11 @@ public class Car {
         this.type = type;
     }
 
+    public String getGen() {
+        return gen;
+    }
+
+    public void setGen(String gen) {
+        this.gen = gen;
+    }
 }

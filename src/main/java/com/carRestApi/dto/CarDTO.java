@@ -5,15 +5,17 @@ public class CarDTO {
     private String brand;
     private String model;
     private String type;
+    private String gen;
 
     public CarDTO() {
     }
 
-    public CarDTO(Long id, String brand, String model, String type) {
+    public CarDTO(Long id, String brand, String model, String type,String gen) {
         this.id = id;
         this.brand = brand;
         this.model = model;
         this.type = type;
+        this.gen = gen;
     }
 
     public Long getId() {
@@ -48,4 +50,11 @@ public class CarDTO {
         this.type = type;
     }
 
+    public String getGen() {
+        return gen;
+    }
+
+    public void setGen(String gen) {
+        this.gen = gen;
+    }
 }
