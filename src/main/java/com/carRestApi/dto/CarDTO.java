@@ -1,10 +1,22 @@
 package com.carRestApi.dto;
 
+import com.carRestApi.view.Views;
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class CarDTO {
+    @JsonView(Views.Mobile.class)
     private Long id;
+    @JsonView(Views.Mobile.class)
+
     private String brand;
+    @JsonView(Views.Mobile.class)
+
     private String model;
+    @JsonView(Views.Web.class)
+
     private String type;
+    @JsonView(Views.Web.class)
+
     private String gen;
 
     public CarDTO() {

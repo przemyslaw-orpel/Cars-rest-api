@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/types")
+@RequestMapping("/api")
 public class TypeController {
     private final TypeService typeService;
 
@@ -17,7 +17,7 @@ public class TypeController {
         this.typeService = typeService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/v1/types/{id}")
     public ResponseEntity<Type> getType(@PathVariable Long id) {
         Type type = typeService.findById(id);
         if (type == null)
@@ -26,7 +26,7 @@ public class TypeController {
             return new ResponseEntity<>(type, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/v1/types")
     public ResponseEntity<List<Type>> getTypes() {
         try {
             List<Type> types = typeService.findAll();
@@ -38,7 +38,7 @@ public class TypeController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/v1/types")
     public ResponseEntity<Type> createTypes(@RequestBody Type type) {
         try {
             Type _type = typeService.save(new Type(type.getName()));
@@ -48,7 +48,7 @@ public class TypeController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/v1/types/{id}")
     public ResponseEntity<HttpStatus> deleteById(@PathVariable Long id) {
         Type type = typeService.findById(id);
         if (type == null)
@@ -61,7 +61,7 @@ public class TypeController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/v1/types/{id}")
     public ResponseEntity<Type> editType(@PathVariable Long id, @RequestBody Type type) {
         if (!id.equals(type.getId()))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
